@@ -1,5 +1,6 @@
 services:
   backend:
+    container_name: disculla-backend
     build:
       context: .
       dockerfile: apps/backend/Dockerfile
@@ -13,6 +14,7 @@ services:
       - /app/apps/backend/node_modules
 
   frontend:
+    container_name: disculla-frontend
     build:
       context: .
       dockerfile: apps/frontend/Dockerfile

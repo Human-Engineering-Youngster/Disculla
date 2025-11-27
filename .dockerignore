@@ -7,7 +7,6 @@ dist
 .env.*
 npm-debug.log
 yarn-error.log
-Dockerfile
 docker-compose.yml
 README.md
 SETUP.md
