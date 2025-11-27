@@ -7,11 +7,9 @@ services:
     env_file:
       - apps/backend/.env.docker
     ports:
-      - '8080:8080'
+      - "8080:8080"
     volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/backend/node_modules
+      - ./apps/backend/src:/app/apps/backend/src
     depends_on:
       - postgres
 
@@ -23,12 +21,9 @@ services:
     env_file:
       - apps/frontend/.env
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/frontend/node_modules
-      - /app/apps/frontend/.next
+      - ./apps/frontend/src:/app/apps/frontend/src
     depends_on:
       - backend
 
