@@ -19,6 +19,6 @@ COPY . .
 # Set working directory to backend
 WORKDIR /app/apps/backend
 
-EXPOSE 3001
+EXPOSE 8080
 
 CMD ["pnpm", "start:dev"]

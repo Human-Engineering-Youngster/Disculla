@@ -6,3 +6,5 @@ yarn-error.log
 .gitignore
 Dockerfile
 .dockerignore
+.env
+.env.*

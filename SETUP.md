@@ -7,17 +7,24 @@
 
 ## 環境変数の設定
 
-プロジェクトルートに `.env` ファイルを作成してください（必要に応じて `.env.example` をコピー）。
-**Neon DB** を使用するため、`DATABASE_URL` には Neon の接続文字列を設定してください。
+frontendとbackendにある `.env.example` をコピーして `.env` ファイルを作成してください。
+
+### Backend (`apps/backend`)
+
+```bash
+cp apps/backend/.env.example apps/backend/.env
+```
+
+**重要**: `apps/backend/.env` に **Neon DB** の接続情報を追記してください。
 
 ```env
-# Backend
-PORT=3001
-ORIGIN=http://localhost:3000
 DATABASE_URL=postgres://[user]:[password]@[host]/[dbname]?sslmode=require
+```
 
-# Frontend
-NEXT_PUBLIC_API_URL=http://localhost:3001
+### Frontend (`apps/frontend`)
+
+```bash
+cp apps/frontend/.env.example apps/frontend/.env
 ```
 
 ## Docker での起動（推奨）
@@ -25,11 +32,11 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 以下のコマンドで、Backend, Frontend のサービスを起動します。
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 - **Frontend**: http://localhost:3000
-- **Backend**: http://localhost:3001
+- **Backend**: http://localhost:8080
 
 ホットリロードが有効になっているため、ソースコードを編集すると自動的に反映されます。
 
