@@ -2,8 +2,8 @@
 
 ## 前提条件
 
-*   **Docker Desktop** がインストールされ、起動していること。
-*   **Node.js** (v20以上推奨) と **pnpm** がインストールされていること。
+- **Docker Desktop** がインストールされ、起動していること。
+- **Node.js** (v20以上推奨) と **pnpm** がインストールされていること。
 
 ## 環境変数の設定
 
@@ -28,8 +28,8 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 docker-compose up --build
 ```
 
-*   **Frontend**: http://localhost:3000
-*   **Backend**: http://localhost:3001
+- **Frontend**: http://localhost:3000
+- **Backend**: http://localhost:3001
 
 ホットリロードが有効になっているため、ソースコードを編集すると自動的に反映されます。
 
@@ -38,11 +38,13 @@ docker-compose up --build
 Dockerを使用せず、ホストマシンで直接実行する場合の手順です。
 
 1.  依存パッケージのインストール
+
     ```bash
     pnpm install
     ```
 
 2.  Backend の起動
+
     ```bash
     pnpm backend:dev
     ```
