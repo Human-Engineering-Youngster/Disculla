@@ -11,7 +11,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/backend/package.json ./apps/backend/
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --filter backend --frozen-lockfile
 
 # Copy source code
 COPY . .
