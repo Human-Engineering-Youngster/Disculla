@@ -27,3 +27,5 @@ services:
       - /app/node_modules
       - /app/apps/frontend/node_modules
       - /app/apps/frontend/.next
+    depends_on:
+      - backend
