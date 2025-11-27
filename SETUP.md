@@ -7,18 +7,36 @@
 
 ## 環境変数の設定
 
-frontendとbackendにある `.env.example` をコピーして `.env` ファイルを作成してください。
+frontendとbackend各アプリケーションディレクトリにある `.env.example` をコピーして `.env` ファイルを作成してください。
+
+### Root (`.`)
+
+PostgreSQLの接続情報（ユーザー、パスワード、DB名）を設定します。
+
+```bash
+cp db/.env.example db/.env
+```
 
 ### Backend (`apps/backend`)
+
+**ローカル開発用 (`.env`)**
 
 ```bash
 cp apps/backend/.env.example apps/backend/.env
 ```
 
-**重要**: `apps/backend/.env` に **Neon DB** の接続情報を追記してください。
+※ `DATABASE_URL` は `localhost` を指すように設定してください（デフォルトで設定済み）。
+
+**Docker用 (`.env.docker`)**
+
+```bash
+cp apps/backend/.env.example apps/backend/.env.docker
+```
+
+※ `DATABASE_URL` は `postgres` ホストを指すように設定してください。
 
 ```env
-DATABASE_URL=postgres://[user]:[password]@[host]/[dbname]?sslmode=require
+DATABASE_URL=postgres://user:password@postgres:5432/disculla
 ```
 
 ### Frontend (`apps/frontend`)
@@ -43,20 +61,24 @@ docker compose up --build
 ## ローカルでの起動（Dockerなし）
 
 Dockerを使用せず、ホストマシンで直接実行する場合の手順です。
+※ DBのみDockerで起動しておく必要があります。
 
-1.  依存パッケージのインストール
+1.  DBの起動
+
+    ```bash
+    docker compose up postgres -d
+    ```
+
+2.  依存パッケージのインストール
 
     ```bash
     pnpm install
     ```
 
-2.  Backend の起動
-
+3.  アプリケーションの起動（ルートディレクトリ）
     ```bash
-    pnpm backend:dev
+    pnpm run dev
     ```
 
-3.  Frontend の起動
-    ```bash
-    pnpm frontend:dev
-    ```
+- **Frontend**: http://localhost:3000
+- **Backend**: http://localhost:8080

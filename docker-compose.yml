@@ -5,13 +5,15 @@ services:
       context: .
       dockerfile: apps/backend/Dockerfile
     env_file:
-      - apps/backend/.env
+      - apps/backend/.env.docker
     ports:
       - '8080:8080'
     volumes:
       - .:/app
       - /app/node_modules
       - /app/apps/backend/node_modules
+    depends_on:
+      - postgres
 
   frontend:
     container_name: disculla-frontend
@@ -29,3 +31,15 @@ services:
       - /app/apps/frontend/.next
     depends_on:
       - backend
+
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - db/.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
