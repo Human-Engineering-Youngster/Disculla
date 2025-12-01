@@ -10,6 +10,7 @@ services:
       - "8080:8080"
     volumes:
       - ./apps/backend/src:/app/apps/backend/src
+      - ./apps/backend/prisma:/app/apps/backend/prisma
     depends_on:
       - postgres
 

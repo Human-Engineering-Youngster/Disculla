@@ -84,6 +84,9 @@ importers:
       '@nestjs/testing':
         specifier: ^11.0.1
         version: 11.1.9(@nestjs/common@11.1.9(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.9)(@nestjs/platform-express@11.1.9)
+      '@prisma/driver-adapter-utils':
+        specifier: ^7.0.1
+        version: 7.0.1
       '@swc/cli':
         specifier: ^0.6.0
         version: 0.6.0(@swc/core@1.15.3)(chokidar@4.0.3)

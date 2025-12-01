@@ -48,6 +48,13 @@ help:
 	@echo "  make clean            - キャッシュ類の削除(注意: volumes削除あり)"
 	@echo "  make stop             - Dockerコンテナ停止"
 	@echo "  make tsc              - TypeScript 型チェック"
+	@echo ""
+	@echo "■ Prisma (Docker内で実行)"
+	@echo "  make prisma-generate  - Prisma Clientを生成"
+	@echo "  make prisma-migrate   - マイグレーションを実行 (dev)"
+	@echo "  make prisma-studio    - Prisma Studioを起動"
+	@echo "  make prisma-pull      - DBからスキーマを更新"
+	@echo "  make prisma-push      - スキーマをDBに反映 (プロトタイプ用)"
 
 # ------------------------------
 # Basic commands
@@ -152,3 +159,21 @@ tsc:
 	pnpm --filter backend tsc
 
 check: lint tsc
+
+# ------------------------------
+# Prisma (Docker)
+# ------------------------------
+prisma-generate:
+	docker exec disculla-backend npx prisma generate
+
+prisma-migrate:
+	docker exec -it disculla-backend npx prisma migrate dev
+
+prisma-studio:
+	docker exec -it disculla-backend npx prisma studio
+
+prisma-pull:
+	docker exec disculla-backend npx prisma db pull
+
+prisma-push:
+	docker exec disculla-backend npx prisma db push
