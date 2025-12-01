@@ -7,3 +7,6 @@ node_modules
 
 # Task files
 docs/task/*
+
+# Environment variables
+.env

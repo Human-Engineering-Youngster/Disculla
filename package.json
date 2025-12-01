@@ -37,5 +37,14 @@
       "cd apps/backend && eslint --fix",
       "prettier --write"
     ]
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "prisma",
+      "@prisma/engines",
+      "@prisma/client",
+      "esbuild",
+      "bcrypt"
+    ]
   }
 }
