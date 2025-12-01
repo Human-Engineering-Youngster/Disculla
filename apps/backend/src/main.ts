@@ -15,10 +15,10 @@ async function bootstrap(): Promise<void> {
     });
 
     const config = new DocumentBuilder()
-      .setTitle("Iterate API")
-      .setDescription("Iterate API documentation")
+      .setTitle("Disculla API")
+      .setDescription("Disculla API documentation")
       .setVersion("1.0")
-      .addTag("iterate")
+      .addTag("Disculla")
       .build();
 
     const document = SwaggerModule.createDocument(app, config);
