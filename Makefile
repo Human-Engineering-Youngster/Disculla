@@ -170,7 +170,7 @@ prisma-migrate:
 	docker exec -it disculla-backend npx prisma migrate dev
 
 prisma-studio:
-	docker exec -it disculla-backend npx prisma studio
+	docker exec -it disculla-backend npx prisma studio --port 5555 --browser none
 
 prisma-pull:
 	docker exec disculla-backend npx prisma db pull
