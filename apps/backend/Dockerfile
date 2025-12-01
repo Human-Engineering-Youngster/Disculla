@@ -16,6 +16,9 @@ COPY . .
 # Install all dependencies
 RUN pnpm install --frozen-lockfile
 
+# Generate Prisma Client
+RUN pnpm --filter backend exec prisma generate
+
 # Set working directory to backend
 WORKDIR /app/apps/backend
 
