@@ -61,6 +61,8 @@ model User {
   ownedChannels Channel[]
   sentMessages  Message[]
 
+  @@index([clerkId])
+  @@index([createdAt])
   @@map("users")
 }
 
@@ -74,6 +76,7 @@ model Group {
   members  GroupMember[]
   channels Channel[]
 
+  @@index([createdAt])
   @@map("groups")
 }
 
@@ -85,11 +88,14 @@ model GroupMember {
   createdAt DateTime           @default(now()) @map("created_at")
   updatedAt DateTime           @updatedAt @map("updated_at")
 
-  group Group @relation(fields: [groupId], references: [id])
-  user  User  @relation(fields: [userId], references: [id])
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([groupId, userId])
   @@index([groupId, userId])
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
   @@map("group_members")
 }
 
@@ -102,12 +108,16 @@ model Channel {
   createdAt   DateTime    @default(now()) @map("created_at")
   updatedAt   DateTime    @updatedAt @map("updated_at")
 
-  owner    User      @relation(fields: [ownerId], references: [id])
-  group    Group     @relation(fields: [groupId], references: [id])
+  owner    User      @relation(fields: [ownerId], references: [id], onDelete: Restrict)
+  group    Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)
   messages Message[]
   minutes  Minute[]
   topics   Topic[]
 
+  @@index([groupId])
+  @@index([ownerId])
+  @@index([channelType])
+  @@index([createdAt])
   @@map("channels")
 }
 
@@ -122,11 +132,18 @@ model Message {
   createdAt DateTime      @default(now()) @map("created_at")
   updatedAt DateTime      @updatedAt @map("updated_at")
 
-  channel Channel   @relation(fields: [channelId], references: [id])
-  sender  User      @relation(fields: [senderId], references: [id])
-  parent  Message?  @relation("MessageReplies", fields: [parentId], references: [id])
+  channel Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  sender  User      @relation(fields: [senderId], references: [id], onDelete: Restrict)
+  parent  Message?  @relation("MessageReplies", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   replies Message[] @relation("MessageReplies")
 
+  @@index([channelId])
+  @@index([senderId])
+  @@index([parentId])
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
+  @@index([channelId, createdAt])
   @@map("messages")
 }
 
@@ -138,8 +155,10 @@ model Minute {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
-  channel Channel @relation(fields: [channelId], references: [id])
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
 
+  @@index([channelId])
+  @@index([createdAt])
   @@map("minutes")
 }
 
@@ -152,9 +171,13 @@ model Topic {
   createdAt   DateTime    @default(now()) @map("created_at")
   updatedAt   DateTime    @updatedAt @map("updated_at")
 
-  channel        Channel          @relation(fields: [channelId], references: [id])
+  channel        Channel          @relation(fields: [channelId], references: [id], onDelete: Cascade)
   debateAnalyses DebateAnalysis[]
 
+  @@index([channelId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([channelId, status])
   @@map("topics")
 }
 
@@ -167,9 +190,14 @@ model DebateAnalysis {
   createdAt  DateTime   @default(now()) @map("created_at")
   updatedAt  DateTime   @updatedAt @map("updated_at")
 
-  topic           Topic           @relation(fields: [topicId], references: [id])
+  topic           Topic           @relation(fields: [topicId], references: [id], onDelete: Cascade)
   debateSummaries DebateSummary[]
 
+  @@index([topicId])
+  @@index([isSolved])
+  @@index([alertLevel])
+  @@index([createdAt])
+  @@index([topicId, alertLevel])
   @@map("debate_analyses")
 }
 
@@ -180,7 +208,9 @@ model DebateSummary {
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")
 
-  debateAnalysis DebateAnalysis @relation(fields: [debateAnalysisId], references: [id])
+  debateAnalysis DebateAnalysis @relation(fields: [debateAnalysisId], references: [id], onDelete: Cascade)
 
+  @@index([debateAnalysisId])
+  @@index([createdAt])
   @@map("debate_summaries")
 }
