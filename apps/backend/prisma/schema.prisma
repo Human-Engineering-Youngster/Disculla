@@ -6,8 +6,181 @@ datasource db {
   provider = "postgresql"
 }
 
+// Enums
+enum GroupMembersStatus {
+  invited
+  deleted
+  active
+  left
+  block
+}
+
+enum ChannelType {
+  chat
+  discussion
+}
+
+enum MessageType {
+  normal
+  thread
+  reply
+  system
+}
+
+enum MessageStatus {
+  normal
+  deleted
+  edited
+}
+
+enum TopicStatus {
+  ready
+  active
+  stopped
+  closed
+}
+
+enum AlertLevel {
+  none
+  info
+  notice
+  warning
+  critical
+}
+
+// Models
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clerkId   String   @unique @map("clerk_id") @db.Uuid
+  name      String
+  avatarUrl String   @map("avatar_url")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  groupMembers  GroupMember[]
+  ownedChannels Channel[]
+  sentMessages  Message[]
+
+  @@map("users")
+}
+
+model Group {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  description String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  members  GroupMember[]
+  channels Channel[]
+
+  @@map("groups")
+}
+
+model GroupMember {
+  id        String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  groupId   String             @map("group_id") @db.Uuid
+  userId    String             @map("user_id") @db.Uuid
+  status    GroupMembersStatus
+  createdAt DateTime           @default(now()) @map("created_at")
+  updatedAt DateTime           @updatedAt @map("updated_at")
+
+  group Group @relation(fields: [groupId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@unique([groupId, userId])
+  @@index([groupId, userId])
+  @@map("group_members")
+}
+
+model Channel {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerId     String      @map("owner_id") @db.Uuid
+  groupId     String      @map("group_id") @db.Uuid
+  name        String
+  channelType ChannelType @map("channel_type")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  owner    User      @relation(fields: [ownerId], references: [id])
+  group    Group     @relation(fields: [groupId], references: [id])
+  messages Message[]
+  minutes  Minute[]
+  topics   Topic[]
+
+  @@map("channels")
+}
+
+model Message {
+  id        String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  channelId String        @map("channel_id") @db.Uuid
+  senderId  String        @map("sender_id") @db.Uuid
+  parentId  String?       @map("parent_id") @db.Uuid
+  content   String
+  type      MessageType
+  status    MessageStatus
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  channel Channel   @relation(fields: [channelId], references: [id])
+  sender  User      @relation(fields: [senderId], references: [id])
+  parent  Message?  @relation("MessageReplies", fields: [parentId], references: [id])
+  replies Message[] @relation("MessageReplies")
+
+  @@map("messages")
+}
+
+model Minute {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  channelId  String   @map("channel_id") @db.Uuid
+  content    String
+  conclusion String
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  channel Channel @relation(fields: [channelId], references: [id])
+
+  @@map("minutes")
+}
+
+model Topic {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  channelId   String      @map("channel_id") @db.Uuid
+  title       String
+  description String
+  status      TopicStatus
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  channel        Channel          @relation(fields: [channelId], references: [id])
+  debateAnalyses DebateAnalysis[]
+
+  @@map("topics")
+}
+
+model DebateAnalysis {
+  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  topicId    String     @map("topic_id") @db.Uuid
+  content    String
+  isSolved   Boolean    @map("is_solved")
+  alertLevel AlertLevel @map("alert_level")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+
+  topic           Topic           @relation(fields: [topicId], references: [id])
+  debateSummaries DebateSummary[]
+
+  @@map("debate_analyses")
+}
+
+model DebateSummary {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  debateAnalysisId String   @map("debate_analysis_id") @db.Uuid
+  summary          String
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  debateAnalysis DebateAnalysis @relation(fields: [debateAnalysisId], references: [id])
+
+  @@map("debate_summaries")
 }
