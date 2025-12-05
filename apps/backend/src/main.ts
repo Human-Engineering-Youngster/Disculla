@@ -7,7 +7,10 @@ import { getOrigin, getServerPort } from "src/config";
 import { AppModule } from "src/modules/app.module";
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    rawBody: true,
+  });
+
   try {
     app.enableCors({
       origin: getOrigin(),
