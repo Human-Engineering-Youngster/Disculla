@@ -74,8 +74,8 @@
 
 | column     | type      | key | 補足         |
 | ---------- | --------- | --- | ------------ |
-| id         | uuid v4   |     | PK           |
-| channel_id | uuid v4   |     | channels.id  |
+| id         | uuid v4   | PK  |              |
+| channel_id | uuid v4   | FK  | channels.id  |
 | content    | string    |     |              |
 | conclusion | string    |     | 最終的な結論 |
 | created_at | timestamp |     |              |
@@ -85,8 +85,8 @@
 
 | column      | type        | key | 補足        |
 | ----------- | ----------- | --- | ----------- |
-| id          | uuid v4     |     | PK          |
-| channel_id  | uuid v4     |     | channels.id |
+| id          | uuid v4     | PK  |             |
+| channel_id  | uuid v4     | FK  | channels.id |
 | title       | string      |     |             |
 | description | string      |     |             |
 | status      | TopicStatus |     |             |
@@ -100,7 +100,7 @@
 | id          | uuid v4    | PK  |           |
 | topic_id    | uuid v4    | FK  | topics.id |
 | content     | string     |     |           |
-| isSolved    | bool       |     |           |
+| is_solved   | bool       |     |           |
 | alert_level | AlertLevel |     | 警告度    |
 | created_at  | timestamp  |     |           |
 | updated_at  | timestamp  |     |           |

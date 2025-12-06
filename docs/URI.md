@@ -583,8 +583,7 @@ Content-Type: application/json
 ```json
 {
   "name": "general",
-  "channel_type": "chat",
-  "owner_id": "550e8400-e29b-41d4-a716-446655440000"
+  "channel_type": "chat"
 }
 ```
 
@@ -1049,7 +1048,6 @@ Authorization: Bearer <JWT Token>
 | `debate_analyses`               | array            | 議論分析の配列                                                    |
 | `debate_analyses[].id`          | string (uuid v4) | 議論分析ID                                                        |
 | `debate_analyses[].content`     | string           | 分析内容                                                          |
-| `debate_analyses[].status`      | enum(string)     | 分析のステータス                                                  |
 | `debate_analyses[].alert_level` | enum(string)     | アラートレベル（`none`, `info`, `notice`, `warning`, `critical`） |
 | `debate_analyses[].created_at`  | timestamp        | 作成日時                                                          |
 
@@ -1063,7 +1061,6 @@ Authorization: Bearer <JWT Token>
     {
       "id": "550e8400-e29b-41d4-a716-446655440006",
       "content": "議論が活発です",
-      "status": "active",
       "alert_level": "info"
     }
   ]
@@ -1282,14 +1279,14 @@ Content-Type: application/json
 | ------------- | ---------------- | -------------------- |
 | `id`          | string (uuid v4) | 作成された議論分析ID |
 | `content`     | string           | 分析内容             |
-| `status`      | enum(string)     | 分析のステータス     |
+| `is_solved`   | boolean          | 解決済みかどうか     |
 | `alert_level` | enum(string)     | アラートレベル       |
 
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440006",
   "content": "議題から脱線しています",
-  "status": "active",
+  "is_solved": false,
   "alert_level": "warning"
 }
 ```
@@ -1325,7 +1322,7 @@ Content-Type: application/json
 | Field         | Type                 | Required | Description          |
 | ------------- | -------------------- | -------- | -------------------- |
 | `content`     | string \| null       | No       | 新しい分析内容       |
-| `status`      | enum(string) \| null | No       | 新しいステータス     |
+| `is_solved`   | bool \| null         | No       | 解決済みかどうか     |
 | `alert_level` | enum(string) \| null | No       | 新しいアラートレベル |
 
 ```json
