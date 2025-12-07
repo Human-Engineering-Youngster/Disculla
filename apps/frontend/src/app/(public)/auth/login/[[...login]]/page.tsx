@@ -7,13 +7,11 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <SignIn
-        routing="path"
-        path="/auth/login"
-        signUpUrl="/auth/register"
-        forceRedirectUrl="/groups"
-      />
-    </div>
+    <SignIn
+      routing="path"
+      path="/auth/login"
+      signUpUrl="/auth/register"
+      forceRedirectUrl="/groups"
+    />
   );
 }
