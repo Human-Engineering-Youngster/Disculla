@@ -4,18 +4,13 @@ import { INestApplication } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppModule } from "src/modules/app.module";
+import { PrismaService } from "src/modules/prisma/application/prisma.service";
 import { VerifySvix } from "src/modules/svix/infrastructure/verify-svix";
-import { SaveUsersUseCase } from "src/modules/users/application/save-users.usecase";
-import { ClerkIdVo } from "src/modules/users/domain/clerk-id.vo";
-import { AvatarUrlVo } from "src/modules/users/domain/user-avatar-url.vo";
-import { IdVo } from "src/modules/users/domain/user-id.vo";
-import { NameVo } from "src/modules/users/domain/user-name.vo";
-import { User } from "src/modules/users/domain/user.entity";
 import * as request from "supertest";
 
 describe("WebhookUsersController (e2e)", () => {
   let app: INestApplication;
-  let saveUsersUseCase: SaveUsersUseCase;
+  let prismaService: PrismaService;
   let verifySvix: VerifySvix;
 
   beforeEach(async () => {
@@ -26,9 +21,12 @@ describe("WebhookUsersController (e2e)", () => {
       .useValue({
         verifySignature: jest.fn(),
       })
-      .overrideProvider(SaveUsersUseCase)
+      .overrideProvider(PrismaService)
       .useValue({
-        execute: jest.fn(),
+        user: {
+          create: jest.fn(),
+          update: jest.fn(),
+        },
       })
       .compile();
 
@@ -37,7 +35,7 @@ describe("WebhookUsersController (e2e)", () => {
     });
     await app.init();
 
-    saveUsersUseCase = moduleFixture.get<SaveUsersUseCase>(SaveUsersUseCase);
+    prismaService = moduleFixture.get<PrismaService>(PrismaService);
     verifySvix = moduleFixture.get<VerifySvix>(VerifySvix);
   });
 
@@ -45,7 +43,7 @@ describe("WebhookUsersController (e2e)", () => {
     await app.close();
   });
 
-  it("/webhooks/clerk/users (POST) - success", async () => {
+  it("/webhooks/clerk/users (POST) - success (create)", async () => {
     const svixId = "test-svix-id";
     const timestamp = "test-timestamp";
     const signature = "test-signature";
@@ -58,15 +56,17 @@ describe("WebhookUsersController (e2e)", () => {
       },
     };
 
-    const expectedUser = User.reconstruct(
-      IdVo.of("123e4567-e89b-12d3-a456-426614174000"),
-      ClerkIdVo.of("user_123"),
-      NameVo.of("testuser"),
-      AvatarUrlVo.of("http://example.com/avatar.png")
-    );
+    const prismaUser = {
+      id: "123e4567-e89b-12d3-a456-426614174000",
+      clerkId: "user_123",
+      name: "testuser",
+      avatarUrl: "http://example.com/avatar.png",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
 
     const verifySpy = jest.spyOn(verifySvix, "verifySignature");
-    const saveUsersSpy = jest.spyOn(saveUsersUseCase, "execute").mockResolvedValue(expectedUser);
+    const createSpy = jest.spyOn(prismaService.user, "create").mockResolvedValue(prismaUser);
 
     return request(app.getHttpServer() as Server)
       .post("/webhooks/clerk/users")
@@ -84,7 +84,13 @@ describe("WebhookUsersController (e2e)", () => {
         });
 
         expect(verifySpy).toHaveBeenCalled();
-        expect(saveUsersSpy).toHaveBeenCalled();
+        expect(createSpy).toHaveBeenCalledWith({
+          data: {
+            clerkId: "user_123",
+            name: "testuser",
+            avatarUrl: "http://example.com/avatar.png",
+          },
+        });
       });
   });
 
