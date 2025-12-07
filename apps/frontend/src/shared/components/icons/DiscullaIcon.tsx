@@ -41,7 +41,6 @@ export const DiscullaIcon: React.FC<DiscullaIconProps> = memo(
 
     const ANIMATION = {
       char: 0.1,
-      particle: 0.2,
       ring: 0.3,
       cornerLeft: 1.2,
       cornerRight: 1.4,
@@ -49,7 +48,6 @@ export const DiscullaIcon: React.FC<DiscullaIconProps> = memo(
 
     // 追加: パーティクル・リングの数を定数化
     const TECH_RING_COUNT = 3;
-    const FLOATING_PARTICLE_COUNT = 5;
 
     return (
       <div
@@ -183,34 +181,6 @@ export const DiscullaIcon: React.FC<DiscullaIconProps> = memo(
               </>
             )}
           </div>
-
-          {/* Floating particles - opacity調整 */}
-          {size !== "small" && (
-            <>
-              {[...Array(FLOATING_PARTICLE_COUNT)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-1 h-1 bg-sky-400 rounded-full"
-                  style={{
-                    left: `${20 + i * 15}%`,
-                    top: `${30 + (i % 2) * 40}%`,
-                  }}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{
-                    opacity: [0, 1, 0],
-                    scale: [0, 1.5, 0], // もう少し大きく
-                    y: [0, -40], // もう少し動きを大きく
-                  }}
-                  transition={{
-                    duration: 2,
-                    delay: 1 + i * 0.2,
-                    repeat: Infinity,
-                    repeatDelay: 2,
-                  }}
-                />
-              ))}
-            </>
-          )}
         </motion.div>
       </div>
     );
