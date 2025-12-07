@@ -1,0 +1,1 @@
+export { DiscullaIcon } from "./DiscullaIcon";
