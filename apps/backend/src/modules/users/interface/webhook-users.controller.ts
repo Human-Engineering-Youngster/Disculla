@@ -9,8 +9,8 @@ import {
   Logger,
 } from "@nestjs/common";
 
-import { VerifySvixSignatureUsecase } from "src/modules/svix/application/verify-svix-signature.usecase";
-import { SaveUsersUsecase } from "src/modules/users/application/save-users.usecase";
+import { VerifySvixSignatureUseCase } from "src/modules/svix/application/verify-svix-signature.usecase";
+import { SaveUsersUseCase } from "src/modules/users/application/save-users.usecase";
 import { SaveUserDto } from "src/modules/users/interface/dto/save-user.dto";
 import { UserMapper, UsersResponse } from "src/modules/users/interface/mapper/user.mapper";
 
@@ -19,8 +19,8 @@ export class WebhookUsersController {
   private readonly logger = new Logger(WebhookUsersController.name);
 
   constructor(
-    private readonly saveUsersUsecase: SaveUsersUsecase,
-    private readonly verifySvixSignatureUsecase: VerifySvixSignatureUsecase
+    private readonly saveUsersUseCase: SaveUsersUseCase,
+    private readonly verifySvixSignatureUseCase: VerifySvixSignatureUseCase
   ) {}
 
   @Post()
@@ -37,8 +37,8 @@ export class WebhookUsersController {
       throw new BadRequestException(errorMessage);
     }
 
-    this.verifySvixSignatureUsecase.execute(req, svixId, timestamp, signature);
-    const user = await this.saveUsersUsecase.execute(saveUserDto);
+    this.verifySvixSignatureUseCase.execute(req, svixId, timestamp, signature);
+    const user = await this.saveUsersUseCase.execute(saveUserDto);
     this.logger.log("User saved successfully");
     return UserMapper.formatResponse(user);
   }

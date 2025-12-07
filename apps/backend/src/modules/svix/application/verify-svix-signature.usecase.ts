@@ -4,8 +4,8 @@ import { SvixHeaders, VerifySvix } from "src/modules/svix/infrastructure/verify-
 import { WebhookVerificationError } from "svix";
 
 @Injectable()
-export class VerifySvixSignatureUsecase {
-  private readonly logger = new Logger(VerifySvixSignatureUsecase.name);
+export class VerifySvixSignatureUseCase {
+  private readonly logger = new Logger(VerifySvixSignatureUseCase.name);
 
   constructor(private readonly verifySvix: VerifySvix) {}
 

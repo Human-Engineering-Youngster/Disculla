@@ -5,7 +5,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppModule } from "src/modules/app.module";
 import { VerifySvix } from "src/modules/svix/infrastructure/verify-svix";
-import { SaveUsersUsecase } from "src/modules/users/application/save-users.usecase";
+import { SaveUsersUseCase } from "src/modules/users/application/save-users.usecase";
 import { ClerkIdVo } from "src/modules/users/domain/clerk-id.vo";
 import { AvatarUrlVo } from "src/modules/users/domain/user-avatar-url.vo";
 import { IdVo } from "src/modules/users/domain/user-id.vo";
@@ -15,7 +15,7 @@ import * as request from "supertest";
 
 describe("WebhookUsersController (e2e)", () => {
   let app: INestApplication;
-  let saveUsersUsecase: SaveUsersUsecase;
+  let saveUsersUseCase: SaveUsersUseCase;
   let verifySvix: VerifySvix;
 
   beforeEach(async () => {
@@ -26,7 +26,7 @@ describe("WebhookUsersController (e2e)", () => {
       .useValue({
         verifySignature: jest.fn(),
       })
-      .overrideProvider(SaveUsersUsecase)
+      .overrideProvider(SaveUsersUseCase)
       .useValue({
         execute: jest.fn(),
       })
@@ -37,7 +37,7 @@ describe("WebhookUsersController (e2e)", () => {
     });
     await app.init();
 
-    saveUsersUsecase = moduleFixture.get<SaveUsersUsecase>(SaveUsersUsecase);
+    saveUsersUseCase = moduleFixture.get<SaveUsersUseCase>(SaveUsersUseCase);
     verifySvix = moduleFixture.get<VerifySvix>(VerifySvix);
   });
 
@@ -66,7 +66,7 @@ describe("WebhookUsersController (e2e)", () => {
     );
 
     const verifySpy = jest.spyOn(verifySvix, "verifySignature");
-    const saveUsersSpy = jest.spyOn(saveUsersUsecase, "execute").mockResolvedValue(expectedUser);
+    const saveUsersSpy = jest.spyOn(saveUsersUseCase, "execute").mockResolvedValue(expectedUser);
 
     return request(app.getHttpServer() as Server)
       .post("/webhooks/clerk/users")

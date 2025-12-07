@@ -1,8 +1,8 @@
 import { BadRequestException, RawBodyRequest } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { VerifySvixSignatureUsecase } from "src/modules/svix/application/verify-svix-signature.usecase";
-import { SaveUsersUsecase } from "src/modules/users/application/save-users.usecase";
+import { VerifySvixSignatureUseCase } from "src/modules/svix/application/verify-svix-signature.usecase";
+import { SaveUsersUseCase } from "src/modules/users/application/save-users.usecase";
 import { ClerkIdVo } from "src/modules/users/domain/clerk-id.vo";
 import { AvatarUrlVo } from "src/modules/users/domain/user-avatar-url.vo";
 import { IdVo } from "src/modules/users/domain/user-id.vo";
@@ -14,21 +14,21 @@ import { WebhookUsersController } from "./webhook-users.controller";
 
 describe("WebhookUsersController", () => {
   let controller: WebhookUsersController;
-  let saveUsersUsecase: SaveUsersUsecase;
-  let verifySvixSignatureUsecase: VerifySvixSignatureUsecase;
+  let saveUsersUseCase: SaveUsersUseCase;
+  let verifySvixSignatureUseCase: VerifySvixSignatureUseCase;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WebhookUsersController],
       providers: [
         {
-          provide: SaveUsersUsecase,
+          provide: SaveUsersUseCase,
           useValue: {
             execute: jest.fn(),
           },
         },
         {
-          provide: VerifySvixSignatureUsecase,
+          provide: VerifySvixSignatureUseCase,
           useValue: {
             execute: jest.fn(),
           },
@@ -37,8 +37,8 @@ describe("WebhookUsersController", () => {
     }).compile();
 
     controller = module.get<WebhookUsersController>(WebhookUsersController);
-    saveUsersUsecase = module.get<SaveUsersUsecase>(SaveUsersUsecase);
-    verifySvixSignatureUsecase = module.get<VerifySvixSignatureUsecase>(VerifySvixSignatureUsecase);
+    saveUsersUseCase = module.get<SaveUsersUseCase>(SaveUsersUseCase);
+    verifySvixSignatureUseCase = module.get<VerifySvixSignatureUseCase>(VerifySvixSignatureUseCase);
   });
 
   it("should be defined", () => {
@@ -67,8 +67,8 @@ describe("WebhookUsersController", () => {
         AvatarUrlVo.of("http://example.com/avatar.png")
       );
 
-      const verifySvixSignatureSpy = jest.spyOn(verifySvixSignatureUsecase, "execute");
-      const saveUsersSpy = jest.spyOn(saveUsersUsecase, "execute").mockResolvedValue(expectedUser);
+      const verifySvixSignatureSpy = jest.spyOn(verifySvixSignatureUseCase, "execute");
+      const saveUsersSpy = jest.spyOn(saveUsersUseCase, "execute").mockResolvedValue(expectedUser);
 
       const result = await controller.save(svixId, timestamp, signature, saveUserDto, req);
 

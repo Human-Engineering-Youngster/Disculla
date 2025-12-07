@@ -12,8 +12,8 @@ import {
 import { SaveUserDto, saveUserEventTypes } from "src/modules/users/interface/dto/save-user.dto";
 
 @Injectable()
-export class SaveUsersUsecase {
-  private readonly logger = new Logger(SaveUsersUsecase.name);
+export class SaveUsersUseCase {
+  private readonly logger = new Logger(SaveUsersUseCase.name);
 
   constructor(
     @Inject(USER_REPOSITORY)

@@ -4,16 +4,16 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { VerifySvix } from "src/modules/svix/infrastructure/verify-svix";
 import { WebhookVerificationError } from "svix";
 
-import { VerifySvixSignatureUsecase } from "./verify-svix-signature.usecase";
+import { VerifySvixSignatureUseCase } from "./verify-svix-signature.usecase";
 
-describe("VerifySvixSignatureUsecase", () => {
-  let usecase: VerifySvixSignatureUsecase;
+describe("VerifySvixSignatureUseCase", () => {
+  let usecase: VerifySvixSignatureUseCase;
   let verifySvix: VerifySvix;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        VerifySvixSignatureUsecase,
+        VerifySvixSignatureUseCase,
         {
           provide: VerifySvix,
           useValue: {
@@ -23,7 +23,7 @@ describe("VerifySvixSignatureUsecase", () => {
       ],
     }).compile();
 
-    usecase = module.get<VerifySvixSignatureUsecase>(VerifySvixSignatureUsecase);
+    usecase = module.get<VerifySvixSignatureUseCase>(VerifySvixSignatureUseCase);
     verifySvix = module.get<VerifySvix>(VerifySvix);
   });
 
