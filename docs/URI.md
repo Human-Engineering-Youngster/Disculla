@@ -28,11 +28,7 @@
 Authorization: Bearer <Clerk JWT Token>
 ```
 
-または
-
-```http
-Authorization: Bearer <JWT Token>
-```
+`<Clerk JWT Token>` はClerkから発行されるJWTトークンを使用してください。
 
 ---
 
@@ -76,36 +72,6 @@ Content-Type: application/json
 
 ---
 
-## Users
-
-### 現在のユーザー情報取得
-
-認証されたユーザーの情報を取得します。
-
-```http
-GET /api/users/me
-```
-
-#### Headers
-
-```
-Authorization: Bearer <Clerk JWT Token>
-```
-
-#### Response
-
-| Field   | Type   | Description |
-| ------- | ------ | ----------- |
-| `token` | string | JWT Token   |
-
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
-```
-
----
-
 ## Groups
 
 ### グループ一覧取得
@@ -119,7 +85,7 @@ GET /api/groups
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 ```
 
 #### Response
@@ -156,7 +122,7 @@ POST /api/groups
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -209,7 +175,7 @@ GET /api/groups/:group_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 ```
 
 #### Response
@@ -247,7 +213,7 @@ PATCH /api/groups/:group_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -300,7 +266,7 @@ DELETE /api/groups/:group_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -325,7 +291,7 @@ GET /api/groups/:group_id/members
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 ```
 
 #### Response
@@ -375,7 +341,7 @@ POST /api/groups/:group_id/members
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -434,7 +400,7 @@ PATCH /api/groups/:group_id/members/:member_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -493,7 +459,7 @@ DELETE /api/groups/:group_id/members/:member_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -524,7 +490,7 @@ GET /api/groups/:group_id/channels
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 ```
 
 #### Response
@@ -569,7 +535,7 @@ POST /api/groups/:group_id/channels
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -625,7 +591,7 @@ PATCH /api/groups/:group_id/channels/:channel_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -680,7 +646,7 @@ DELETE /api/groups/:group_id/channels/:channel_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -712,7 +678,7 @@ GET /api/groups/:group_id/channels/:channel_id/messages
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 ```
 
 #### Response
@@ -781,7 +747,7 @@ POST /api/groups/:group_id/channels/:channel_id/messages
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -858,7 +824,7 @@ PATCH /api/groups/:group_id/channels/:channel_id/messages/:message_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -902,7 +868,7 @@ DELETE /api/groups/:group_id/channels/:channel_id/messages/:message_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -928,7 +894,7 @@ GET /api/groups/:group_id/channels/:channel_id/topics
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -977,7 +943,7 @@ POST /api/groups/:group_id/channels/:channel_id/topics
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -1034,7 +1000,7 @@ GET /api/groups/:group_id/channels/:channel_id/topics/:topic_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 ```
 
 #### Response
@@ -1088,7 +1054,7 @@ PATCH /api/groups/:group_id/channels/:channel_id/topics/:topic_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -1131,7 +1097,7 @@ DELETE /api/groups/:group_id/channels/:channel_id/topics/:topic_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -1158,7 +1124,7 @@ GET /api/groups/:group_id/channels/:channel_id/topics/:topic_id/messages
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 ```
 
 #### Response
@@ -1186,7 +1152,7 @@ POST /api/groups/:group_id/channels/:channel_id/topics/:topic_id/messages
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -1220,7 +1186,7 @@ PATCH /api/groups/:group_id/channels/:channel_id/topics/:topic_id/messages/:mess
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -1255,7 +1221,7 @@ POST /api/groups/:group_id/channels/:channel_id/topics/:topic_id/debate_analyses
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -1313,7 +1279,7 @@ PATCH /api/groups/:group_id/channels/:channel_id/topics/:topic_id/debate_analyse
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -1358,7 +1324,7 @@ DELETE /api/groups/:group_id/channels/:channel_id/topics/:topic_id/debate_analys
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -1383,7 +1349,7 @@ GET /api/groups/:group_id/minutes
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 ```
 
 #### Response
@@ -1427,7 +1393,7 @@ GET /api/groups/:group_id/minutes/:minutes_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 ```
 
 #### Response
@@ -1468,7 +1434,7 @@ PATCH /api/groups/:group_id/minutes/:minutes_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
@@ -1520,7 +1486,7 @@ DELETE /api/groups/:group_id/minutes/:minutes_id
 #### Headers
 
 ```
-Authorization: Bearer <JWT Token>
+Authorization: Bearer <Clerk JWT Token>
 Content-Type: application/json
 ```
 
