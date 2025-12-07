@@ -1,1 +1,1 @@
-export { Header } from "./Header";
+export { PublicHeader } from "./PublicHeader";
