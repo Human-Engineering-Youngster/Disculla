@@ -1,13 +1,7 @@
 import { Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 
-import { Webhook } from "svix";
-
-export interface SvixHeaders {
-  "svix-id": string;
-  "svix-timestamp": string;
-  "svix-signature": string;
-}
+import { Webhook, WebhookRequiredHeaders } from "svix";
 
 @Injectable()
 export class VerifySvix {
@@ -32,7 +26,7 @@ export class VerifySvix {
    * @param {SvixHeaders} svixHeaders - Svixヘッダー
    * @throws {WebhookVerificationError} 署名が無効な場合にスローされる例外
    */
-  verifySignature(body: string, svixHeaders: SvixHeaders): void {
+  verifySignature(body: string, svixHeaders: WebhookRequiredHeaders): void {
     this.webhook.verify(body, svixHeaders);
   }
 }

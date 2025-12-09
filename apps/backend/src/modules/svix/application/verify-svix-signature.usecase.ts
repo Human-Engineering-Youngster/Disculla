@@ -1,7 +1,7 @@
 import { Injectable, Logger, RawBodyRequest, UnauthorizedException } from "@nestjs/common";
 
-import { SvixHeaders, VerifySvix } from "src/modules/svix/infrastructure/verify-svix";
-import { WebhookVerificationError } from "svix";
+import { VerifySvix } from "src/modules/svix/infrastructure/verify-svix";
+import { WebhookRequiredHeaders, WebhookVerificationError } from "svix";
 
 @Injectable()
 export class VerifySvixSignatureUseCase {
@@ -24,7 +24,7 @@ export class VerifySvixSignatureUseCase {
     timestamp: string,
     signature: string
   ): void {
-    const svixHeaders: SvixHeaders = {
+    const svixHeaders: WebhookRequiredHeaders = {
       "svix-id": svixId,
       "svix-timestamp": timestamp,
       "svix-signature": signature,
